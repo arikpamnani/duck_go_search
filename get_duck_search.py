@@ -83,7 +83,6 @@ class DuckDuckGoSearch:
 			query on the given keywords """
 
 		query = "+".join(keywords)
-		print query
 		url = self.base_url[0] + query + self.base_url[1]
 		print url
 
@@ -92,106 +91,54 @@ class DuckDuckGoSearch:
 		except:
 			print "Connection Refused."
 			
-		html_data = html.fromstring(data.text)
+		html_data = html.fromstring(data.text)		
 
-		# expression = HTMLTranslator().css_to_xpath('div.links_main a.result__snippet')
+		no_result_expression = HTMLTranslator().css_to_xpath('div.clear: both')
+		no_result = html_data.xpath(no_result_expression)
+		print len(no_result)
+
 		expression = HTMLTranslator().css_to_xpath('div.links_main')		
 		results = html_data.xpath(expression)		
 
 		num_results = 0
+		page_number = 1
 
 		for result in results:
+			search_obj = SearchReturn()		
+
 			title_path = HTMLTranslator().css_to_xpath('a.result__a')
 			title_element = result.xpath(title_path)
-			print title_element
-			"""
-			search_obj = SearchReturn()
-			
-			result_url = result.attrib['href']
-			search_obj.link = self.clean_url(result_url)
-			search_obj.title = ""
 			try:
-				result_text = str(result.text_content())
-			except UnicodeEncodeError:
-				result_text = result.text_content().encode('utf-8')
-			search_obj.description = result_text
+				search_obj.title = title_element[0].text_content()
+			except:
+				search_obj.title = ""
+
+			desc_path = HTMLTranslator().css_to_xpath('a.result__snippet')
+			desc_element = result.xpath(desc_path)
+			try:
+				search_obj.description = desc_element[0].text_content().encode('utf-8')
+			except:
+				search_obj.description = ""
+			
+			try:
+				result_url = desc_element[0].attrib['href']
+			except:
+				result_url = ""
+			search_obj.link = self.clean_url(result_url)
+
 			search_obj.html_data = data.text
 			
 			self.search_results.append(search_obj)
 
-			num_results += 1
-			if(num_results >= self.max_queries):
-				break
-			"""
+			# num_results += 1
+			# if(num_results >= self.max_queries):
+			#	break
+
 if __name__ == "__main__":
 	x = DuckDuckGoSearch()
 	# x.setup_proxy("http", "http://proxy.iiit.ac.in:8080")
 	# x.setup_proxy("https", "https://proxy.iiit.ac.in:8080")
-	x.setup_baseURL(1)
+	x.setup_baseURL(2)
 	x.query(["library"])
-	# print x.search_results[0].description
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	print x.search_results[30]
 
