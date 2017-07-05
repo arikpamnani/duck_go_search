@@ -96,6 +96,7 @@ class duck_go:
 				data = requests.get(url)
 			except:
 				print "Connection Refused."
+				break
 			
 			html_data = html.fromstring(data.text)		
 
@@ -146,7 +147,10 @@ if __name__ == "__main__":
 	x = duck_go()
 	x.set_query_limit(10)
 	x.query(["table", "tennis"])
-	print x.search_results[0].link
-	print x.search_results[0].title
-	print x.search_results[0].description
+	try:
+		print x.search_results[0].link
+		print x.search_results[0].title
+		print x.search_results[0].description
+	except IndexError:
+		print -1
 
