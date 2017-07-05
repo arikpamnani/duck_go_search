@@ -1,7 +1,0 @@
-setup.py
-duck_go/__init__.py
-duck_go/search.py
-duck_go.egg-info/PKG-INFO
-duck_go.egg-info/SOURCES.txt
-duck_go.egg-info/dependency_links.txt
-duck_go.egg-info/top_level.txt

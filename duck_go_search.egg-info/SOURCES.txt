@@ -1,0 +1,8 @@
+setup.py
+duck_go_search/__init__.py
+duck_go_search/search.py
+duck_go_search.egg-info/PKG-INFO
+duck_go_search.egg-info/SOURCES.txt
+duck_go_search.egg-info/dependency_links.txt
+duck_go_search.egg-info/requires.txt
+duck_go_search.egg-info/top_level.txt

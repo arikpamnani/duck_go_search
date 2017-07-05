@@ -29,7 +29,7 @@ class SearchReturn(object):
 	def __str__(self):
 		return self.link
 	
-class duck_go:	
+class duck_go_search:	
 	def setup_baseURL(self, page):
 		""" This function returns a URL for the
 			corresponding page """
