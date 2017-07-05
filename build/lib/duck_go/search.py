@@ -80,65 +80,73 @@ class duck_go:
 	def query(self, keywords):
 		""" Returns the title, links, 
 			desc by performing a 
-			query on the given keywords """
+			query on the given keywords """		
 
 		query = "+".join(keywords)
-		url = self.base_url[0] + query + self.base_url[1]
-		print url
-
-		try:
-			data = requests.get(url)
-		except:
-			print "Connection Refused."
-			
-		html_data = html.fromstring(data.text)		
-
-		no_result_expression = HTMLTranslator().css_to_xpath('div.clear: both')
-		no_result = html_data.xpath(no_result_expression)
-		print len(no_result)
-
-		expression = HTMLTranslator().css_to_xpath('div.links_main')		
-		results = html_data.xpath(expression)		
+		curr_page = 1
 
 		num_results = 0
-		page_number = 1
+		limit_exceeded = 0	# bool	
 
-		for result in results:
-			search_obj = SearchReturn()		
+		while(num_results < self.max_queries and (not limit_exceeded)):
+			self.setup_baseURL(curr_page)
+			url = self.base_url[0] + query + self.base_url[1]
 
-			title_path = HTMLTranslator().css_to_xpath('a.result__a')
-			title_element = result.xpath(title_path)
 			try:
-				search_obj.title = title_element[0].text_content()
+				data = requests.get(url)
 			except:
-				search_obj.title = ""
-
-			desc_path = HTMLTranslator().css_to_xpath('a.result__snippet')
-			desc_element = result.xpath(desc_path)
-			try:
-				search_obj.description = desc_element[0].text_content().encode('utf-8')
-			except:
-				search_obj.description = ""
+				print "Connection Refused."
 			
-			try:
-				result_url = desc_element[0].attrib['href']
-			except:
-				result_url = ""
-			search_obj.link = self.clean_url(result_url)
+			html_data = html.fromstring(data.text)		
 
-			search_obj.html_data = data.text
+			no_result_expression = HTMLTranslator().css_to_xpath('div.result--no-result')
+			no_result = html_data.xpath(no_result_expression)
+
+			expression = HTMLTranslator().css_to_xpath('div.links_main')		
+			results = html_data.xpath(expression)		
+
+			for result in results:
+				search_obj = SearchReturn()		
+
+				title_path = HTMLTranslator().css_to_xpath('a.result__a')
+				title_element = result.xpath(title_path)
+				try:
+					search_obj.title = title_element[0].text_content()
+				except:
+					search_obj.title = ""
+
+				desc_path = HTMLTranslator().css_to_xpath('a.result__snippet')
+				desc_element = result.xpath(desc_path)
+				try:
+					search_obj.description = desc_element[0].text_content().encode('utf-8')
+				except:
+					search_obj.description = ""
 			
-			self.search_results.append(search_obj)
+				try:
+					result_url = desc_element[0].attrib['href']
+				except:
+					result_url = ""
+				search_obj.link = self.clean_url(result_url)
 
-			# num_results += 1
-			# if(num_results >= self.max_queries):
-			#	break
+				search_obj.html_data = data.text
+			
+				if(result_url == ""):
+					limit_exceeded = 1
+					break
+
+				self.search_results.append(search_obj)
+				num_results += 1
+
+				if(num_results >= self.max_queries):
+					break
+			
+			curr_page += 1
 
 if __name__ == "__main__":
-	x = DuckDuckGoSearch()
-	# x.setup_proxy("http", "http://proxy.iiit.ac.in:8080")
-	# x.setup_proxy("https", "https://proxy.iiit.ac.in:8080")
-	x.setup_baseURL(2)
-	x.query(["library"])
-	print x.search_results[30]
+	x = duck_go()
+	x.set_query_limit(10)
+	x.query(["table", "tennis"])
+	print x.search_results[0].link
+	print x.search_results[0].title
+	print x.search_results[0].description
 
