@@ -84,7 +84,6 @@ class duck_go:
 
 		query = "+".join(keywords)
 		url = self.base_url[0] + query + self.base_url[1]
-		print url
 
 		try:
 			data = requests.get(url)
@@ -93,9 +92,8 @@ class duck_go:
 			
 		html_data = html.fromstring(data.text)		
 
-		no_result_expression = HTMLTranslator().css_to_xpath('div.clear: both')
+		no_result_expression = HTMLTranslator().css_to_xpath('div.result--no-result')
 		no_result = html_data.xpath(no_result_expression)
-		print len(no_result)
 
 		expression = HTMLTranslator().css_to_xpath('div.links_main')		
 		results = html_data.xpath(expression)		
@@ -129,16 +127,18 @@ class duck_go:
 			search_obj.html_data = data.text
 			
 			self.search_results.append(search_obj)
+		
+			num_results += 1
+			if(num_results >= self.max_queries):
+				break
 
-			# num_results += 1
-			# if(num_results >= self.max_queries):
-			#	break
+			
 
 if __name__ == "__main__":
-	x = DuckDuckGoSearch()
+	x = duck_go()
 	# x.setup_proxy("http", "http://proxy.iiit.ac.in:8080")
 	# x.setup_proxy("https", "https://proxy.iiit.ac.in:8080")
-	x.setup_baseURL(2)
+	x.setup_baseURL(1)
 	x.query(["library"])
-	print x.search_results[30]
+	print x.search_results[0].link
 
