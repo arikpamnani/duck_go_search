@@ -5,7 +5,7 @@
 
 
 #### Installation 
-```python
+```
 pip install duck_go_search
 ```
 
