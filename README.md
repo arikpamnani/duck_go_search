@@ -3,7 +3,7 @@
 #### Building in Python (lxml + requests + urllib)
 #### API Documentation - 
 
-#### Installation 
+#### Installation ####
 ```
 pip install duck_go_search
 ```
