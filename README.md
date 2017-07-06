@@ -27,7 +27,7 @@ search_obj.set_query_limit(7)
 # creating a query
 search_obj.query(["keyword_1", "keyword_2"])
 
-""" printint search results, a list 
+""" printing search results, a list 
     of search objects is returned """
     
 # search link
