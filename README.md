@@ -1,4 +1,4 @@
-## duck_go_search 1.0
+## duck_go_search 1.0 (This API is published on - https://pypi.python.org/pypi/duck_go_search/1.0)
 #### A command line utility for search on duckduckgo.com
 #### Building in Python (lxml + requests + urllib)
 #### Dependencies -
