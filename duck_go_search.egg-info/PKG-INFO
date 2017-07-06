@@ -2,7 +2,7 @@ Metadata-Version: 1.0
 Name: duck-go-search
 Version: 1.0
 Summary: A command line utility for search on duckduckgo.com
-Home-page: UNKNOWN
+Home-page: https://github.com/arikpamnani/duck_go_search
 Author: Arik Pamnani
 Author-email: arikpamnani@gmail.com
 License: UNKNOWN

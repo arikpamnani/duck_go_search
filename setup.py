@@ -6,6 +6,7 @@ setup(
    description='A command line utility for search on duckduckgo.com',
    author='Arik Pamnani',
    author_email='arikpamnani@gmail.com',
-   packages=['duck_go_search'],  #same as name
-   install_requires=['lxml', 'urllib', 'requests'], #external packages as dependencies
+   packages=['duck_go_search'],  
+   install_requires=['lxml', 'urllib', 'requests'], 
+   url='https://github.com/arikpamnani/duck_go_search',
 )

@@ -1,3 +1,4 @@
+setup.cfg
 setup.py
 duck_go_search/__init__.py
 duck_go_search/search.py
