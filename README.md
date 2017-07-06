@@ -1,10 +1,10 @@
 ## duck_go_search 1.0
 #### A command line utility for search on duckduckgo.com
 #### Building in Python (lxml + requests + urllib)
-#### Dependencies
-1. lxml
-2. requests
-3. urllib
+#### Dependencies -
+1. ``` lxml ```
+2. ``` requests ```
+3. ``` urllib ```
 
 #### API Documentation - 
 
